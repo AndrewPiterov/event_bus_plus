@@ -18,7 +18,10 @@ eventBus.inProgress$.map((List<AppEvent> events) =>
         events.whereType<FollowAppEvent>().isNotEmpty)
 
 // complete
-eventBus.complete(event.id);
+_eventBus.complete(event);
+
+// or complete with completion event
+_eventBus.complete(event, nextEvent: SomeAnotherEvent);
 
 ```
 

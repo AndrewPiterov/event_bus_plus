@@ -1,15 +1,13 @@
 import 'package:event_bus_plus/event_bus_plus.dart';
 import 'package:given_when_then_unit_test/given_when_then_unit_test.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
-
+import 'package:test/test.dart';
 import 'models.dart';
 
 void main() {
-  late IAppEventBus _bus;
+  late IEventBus _bus;
 
   before(() {
-    _bus = AppEventBus();
+    _bus = EventBus();
   });
 
   test('description', () {
@@ -26,21 +24,21 @@ void main() {
   test('emit Follower Events', () {
     expect(
         _bus.on(),
-        emitsInAnyOrder([
+        emitsInOrder([
           FollowAppEvent('username', id: '1'),
           FollowAppEvent('username3', id: '3'),
           FollowAppEvent('username2', id: '2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username3', id: '3'));
     _bus.fire(FollowAppEvent('username', id: '1'));
+    _bus.fire(FollowAppEvent('username3', id: '3'));
     _bus.fire(FollowAppEvent('username2', id: '2'));
   });
 
   test('emit New Comment Event', () {
     expect(
         _bus.on<NewComment>(),
-        emitsInAnyOrder([
+        emitsInOrder([
           NewComment('comment #1', id: '3'),
           NewComment('comment #2', id: '2'),
         ]));

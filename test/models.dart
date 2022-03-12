@@ -12,6 +12,15 @@ class FollowAppEvent extends AppEvent {
       ];
 }
 
+class FollowSuccessfullyAppEvent extends AppEvent {
+  final FollowAppEvent starting;
+
+  FollowSuccessfullyAppEvent(this.starting);
+
+  @override
+  List<Object?> get props => [starting];
+}
+
 class NewComment extends AppEvent {
   NewComment(this.text, {String? id}) : super(id: id);
 

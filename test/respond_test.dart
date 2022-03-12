@@ -9,10 +9,10 @@ import 'package:test/scaffolding.dart';
 import 'models.dart';
 
 void main() {
-  late IAppEventBus _bus;
+  late IEventBus _bus;
 
   before(() {
-    _bus = AppEventBus();
+    _bus = EventBus();
   });
 
   test('emit Some Event', () {

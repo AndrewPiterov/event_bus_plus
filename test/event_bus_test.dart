@@ -6,10 +6,10 @@ import 'package:shouldly/shouldly.dart';
 import 'models.dart';
 
 void main() {
-  late IAppEventBus _bus;
+  late IEventBus _bus;
 
   before(() {
-    _bus = AppEventBus();
+    _bus = EventBus();
   });
 
   test('Empty event bus', () {
@@ -34,7 +34,7 @@ void main() {
 
     and('complete the event', () {
       before(() {
-        _bus.complete(event.id);
+        _bus.complete(event);
       });
 
       then('should not be busy', () {
