@@ -17,37 +17,37 @@ void main() {
 
   test('emit Follower Event', () {
     const id = 'id';
-    expect(_bus.on(), emitsInAnyOrder([FollowAppEvent('username', id: id)]));
-    _bus.fire(FollowAppEvent('username', id: id));
+    expect(_bus.on(), emitsInAnyOrder([FollowAppEvent('username')]));
+    _bus.fire(FollowAppEvent('username'));
   });
 
   test('emit Follower Events', () {
     expect(
         _bus.on(),
         emitsInOrder([
-          FollowAppEvent('username', id: '1'),
-          FollowAppEvent('username3', id: '3'),
-          FollowAppEvent('username2', id: '2'),
+          FollowAppEvent('username'),
+          FollowAppEvent('username3'),
+          FollowAppEvent('username2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username', id: '1'));
-    _bus.fire(FollowAppEvent('username3', id: '3'));
-    _bus.fire(FollowAppEvent('username2', id: '2'));
+    _bus.fire(FollowAppEvent('username'));
+    _bus.fire(FollowAppEvent('username3'));
+    _bus.fire(FollowAppEvent('username2'));
   });
 
   test('emit New Comment Event', () {
     expect(
-        _bus.on<NewComment>(),
+        _bus.on<NewCommentEvent>(),
         emitsInOrder([
-          NewComment('comment #1', id: '3'),
-          NewComment('comment #2', id: '2'),
+          NewCommentEvent('comment #1'),
+          NewCommentEvent('comment #2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username3', id: '3234234'));
-    _bus.fire(FollowAppEvent('username3', id: '3111'));
-    _bus.fire(NewComment('comment #1', id: '3'));
-    _bus.fire(FollowAppEvent('username3', id: '333'));
-    _bus.fire(NewComment('comment #2', id: '2'));
-    _bus.fire(FollowAppEvent('username3', id: '31234'));
+    _bus.fire(FollowAppEvent('username3'));
+    _bus.fire(FollowAppEvent('username3'));
+    _bus.fire(NewCommentEvent('comment #1'));
+    _bus.fire(FollowAppEvent('username3'));
+    _bus.fire(NewCommentEvent('comment #2'));
+    _bus.fire(FollowAppEvent('username3'));
   });
 }

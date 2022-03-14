@@ -1,3 +1,3 @@
 library event_bus_plus;
 
-export './res/res.dart';
+export 'res/res.dart';

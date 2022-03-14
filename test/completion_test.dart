@@ -15,37 +15,37 @@ void main() {
     expect(
         _bus.on(),
         emitsInOrder([
-          FollowAppEvent('username', id: '1'),
-          FollowAppEvent('username3', id: '3'),
-          FollowAppEvent('username2', id: '2'),
+          FollowAppEvent('username'),
+          FollowAppEvent('username3'),
+          FollowAppEvent('username2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username', id: '1'));
-    _bus.fire(FollowAppEvent('username3', id: '3'));
-    _bus.fire(FollowAppEvent('username2', id: '2'));
+    _bus.fire(FollowAppEvent('username'));
+    _bus.fire(FollowAppEvent('username3'));
+    _bus.fire(FollowAppEvent('username2'));
   });
 
   test('start watch but not complete', () {
     expect(
         _bus.on(),
         emitsInOrder([
-          FollowAppEvent('username', id: '1'),
+          FollowAppEvent('username'),
         ]));
 
-    _bus.watch(FollowAppEvent('username', id: '1'));
+    _bus.watch(FollowAppEvent('username'));
   });
 
   test('start watch and complete', () {
-    final watchable = FollowAppEvent('username3', id: '3');
+    final watchable = FollowAppEvent('username3');
     expect(
         _bus.on(),
         emitsInOrder([
           watchable,
-          FollowSuccessfullyAppEvent(watchable),
+          FollowSuccessfullyEvent(watchable),
         ]));
 
     _bus.watch(watchable);
-    _bus.complete(watchable, nextEvent: FollowSuccessfullyAppEvent(watchable));
+    _bus.complete(watchable, nextEvent: FollowSuccessfullyEvent(watchable));
   });
 
   // test('emit Follower Events', () {

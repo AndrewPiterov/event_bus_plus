@@ -1,34 +1,28 @@
 import 'package:event_bus_plus/event_bus_plus.dart';
 
 class FollowAppEvent extends AppEvent {
-  FollowAppEvent(this.username, {String? id}) : super(id: id);
+  const FollowAppEvent(this.username);
 
   final String username;
 
   @override
-  List<Object?> get props => [
-        id,
-        username,
-      ];
+  List<Object?> get props => [username];
 }
 
-class FollowSuccessfullyAppEvent extends AppEvent {
-  final FollowAppEvent starting;
+class FollowSuccessfullyEvent extends AppEvent {
+  const FollowSuccessfullyEvent(this.starting);
 
-  FollowSuccessfullyAppEvent(this.starting);
+  final FollowAppEvent starting;
 
   @override
   List<Object?> get props => [starting];
 }
 
-class NewComment extends AppEvent {
-  NewComment(this.text, {String? id}) : super(id: id);
+class NewCommentEvent extends AppEvent {
+  const NewCommentEvent(this.text);
 
   final String text;
 
   @override
-  List<Object?> get props => [
-        id,
-        text,
-      ];
+  List<Object?> get props => [text];
 }

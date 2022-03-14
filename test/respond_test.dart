@@ -18,7 +18,7 @@ void main() {
   test('emit Some Event', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewComment>((event) {
+    final sub = _bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -28,14 +28,14 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 2]));
 
-    _bus.fire(FollowAppEvent('username', id: '1'));
-    _bus.fire(NewComment('comment #1', id: '2'));
+    _bus.fire(FollowAppEvent('username'));
+    _bus.fire(NewCommentEvent('comment #1'));
   });
 
   test('emit Some Events', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewComment>((event) {
+    final sub = _bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -45,15 +45,15 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 2, 1]));
 
-    _bus.fire(FollowAppEvent('username', id: '1'));
-    _bus.fire(NewComment('comment #1', id: '2'));
-    _bus.fire(FollowAppEvent('username2', id: '11'));
+    _bus.fire(FollowAppEvent('username'));
+    _bus.fire(NewCommentEvent('comment #1'));
+    _bus.fire(FollowAppEvent('username2'));
   });
 
   test('emit all Event', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewComment>((event) {
+    final sub = _bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -66,7 +66,7 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 3, 2, 3]));
 
-    _bus.fire(FollowAppEvent('username', id: '1'));
-    _bus.fire(NewComment('comment #1', id: '2'));
+    _bus.fire(FollowAppEvent('username'));
+    _bus.fire(NewCommentEvent('comment #1'));
   });
 }

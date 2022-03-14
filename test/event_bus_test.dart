@@ -48,15 +48,15 @@ void main() {
   });
 
   group('compare equality', () {
-    test('compare two equal events - should not be equal', () {
-      final event = FollowAppEvent('username');
-      final event2 = FollowAppEvent('username');
-      event.should.not.be(event2);
-    });
+    // test('compare two equal events - should not be equal', () {
+    //   final event = FollowAppEvent('username');
+    //   final event2 = FollowAppEvent('username');
+    //   event.should.not.be(event2);
+    // });
 
     test('compare two equal events - should be equal', () {
-      final event = FollowAppEvent('username', id: '1');
-      final event2 = FollowAppEvent('username', id: '1');
+      final event = FollowAppEvent('username');
+      final event2 = FollowAppEvent('username');
       event.should.be(event2);
     });
   });

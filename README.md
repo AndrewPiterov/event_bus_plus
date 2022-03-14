@@ -2,7 +2,7 @@
 
 ```dart
 IAppEventBus eventBus = AppEventBus();
-final event = FollowAppEvent('andrei');
+final event = FollowEvent('devcraft.ninja');
 
 // listen last event
 eventBus.last$.listen((AppEvent event) { /*do something*/ });
@@ -30,9 +30,9 @@ _eventBus.complete(event, nextEvent: SomeAnotherEvent);
 We accept the following contributions:
 
 * Improving documentation
-* [Reporting issues](https://github.com/AndrewPiterov/events_bus/issues/new)
+* [Reporting issues](https://github.com/AndrewPiterov/event_bus_plus/issues/new)
 * Fixing bugs
 
 ## Maintainers
 
-* [Andrew Piterov](mailto:contact@andrewpiterov.com?subject=[GitHub]%20Source%20Dart%events_bus)
+* [Andrew Piterov](mailto:contact@andrewpiterov.com?subject=[GitHub]%20Source%20Dart%event_bus_plus)
