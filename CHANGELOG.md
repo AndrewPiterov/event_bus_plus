@@ -1,3 +1,7 @@
+## 0.0.2+1
+
+* [Fix] GitHub repository link
+
 ## 0.0.2
 
 * [Remove] `id` of `AppEvent`
