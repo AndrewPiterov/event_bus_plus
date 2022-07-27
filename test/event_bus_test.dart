@@ -6,43 +6,43 @@ import 'package:shouldly/shouldly.dart';
 import 'models.dart';
 
 void main() {
-  late IEventBus _bus;
+  late IEventBus bus;
 
   before(() {
-    _bus = EventBus();
+    bus = EventBus();
   });
 
   test('Empty event bus', () {
-    _bus.isBusy.should.beFalse();
+    bus.isBusy.should.beFalse();
   });
 
   when('start some event', () {
-    final event = FollowAppEvent('username');
+    const event = FollowAppEvent('username');
     // const eventId = '1';
 
     before(() {
-      _bus.watch(event);
+      bus.watch(event);
     });
 
     then('should be busy', () {
-      _bus.isBusy.should.beTrue();
+      bus.isBusy.should.beTrue();
     });
 
     then('should be in progress', () {
-      _bus.isInProgress<FollowAppEvent>().should.beTrue();
+      bus.isInProgress<FollowAppEvent>().should.beTrue();
     });
 
     and('complete the event', () {
       before(() {
-        _bus.complete(event);
+        bus.complete(event);
       });
 
       then('should not be busy', () {
-        _bus.isBusy.should.beFalse();
+        bus.isBusy.should.beFalse();
       });
 
       then('should not be in progress', () {
-        _bus.isInProgress<FollowAppEvent>().should.not.beTrue();
+        bus.isInProgress<FollowAppEvent>().should.not.beTrue();
       });
     });
   });
@@ -55,8 +55,8 @@ void main() {
     // });
 
     test('compare two equal events - should be equal', () {
-      final event = FollowAppEvent('username');
-      final event2 = FollowAppEvent('username');
+      const event = FollowAppEvent('username');
+      const event2 = FollowAppEvent('username');
       event.should.be(event2);
     });
   });

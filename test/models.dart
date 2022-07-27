@@ -26,3 +26,17 @@ class NewCommentEvent extends AppEvent {
   @override
   List<Object?> get props => [text];
 }
+
+class SomeEvent extends AppEvent {
+  const SomeEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SomeAnotherEvent extends AppEvent {
+  const SomeAnotherEvent();
+
+  @override
+  List<Object?> get props => [];
+}

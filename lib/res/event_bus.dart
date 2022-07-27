@@ -37,7 +37,7 @@ class EventBus implements IEventBus {
   @override
   AppEvent? get last => _lastEvent.valueOrNull;
   @override
-  Stream<AppEvent?> get last$ => _lastEvent;
+  Stream<AppEvent?> get last$ => _lastEvent.distinct();
 
   final _inProgress = BehaviorSubject<List<AppEvent>>.seeded([]);
   List<AppEvent> get _isInProgressEvents => _inProgress.value;

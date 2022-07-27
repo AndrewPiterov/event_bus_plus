@@ -1,3 +1,7 @@
+## 0.1.0
+
+* [Add] distinct
+
 ## 0.0.2+1
 
 * [Fix] GitHub repository link
