@@ -1,3 +1,7 @@
+## 0.2.1
+
+* [Add] debug logging
+
 ## 0.2.0
 
 * [Add] history

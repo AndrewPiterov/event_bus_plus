@@ -1,19 +1,11 @@
+import 'dart:developer';
+
 import 'package:clock/clock.dart';
-import 'package:equatable/equatable.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'app_event.dart';
+import 'history_entry.dart';
 import 'subscription.dart';
-
-class EventBusHistoryEntry extends Equatable {
-  const EventBusHistoryEntry(this.event, this.timestamp);
-
-  final AppEvent event;
-  final DateTime timestamp;
-
-  @override
-  List<Object?> get props => [event, timestamp];
-}
 
 abstract class IEventBus {
   bool get isBusy;
@@ -73,8 +65,10 @@ class EventBus implements IEventBus {
     if (_history.length >= maxHistoryLength) {
       _history.removeAt(0);
     }
-    _history.add(EventBusHistoryEntry(event, clock.now()));
+    final now = clock.now();
+    _history.add(EventBusHistoryEntry(event, now));
     _lastEvent.add(event);
+    log(' ⚡️ (app event) [$now] $event');
   }
 
   @override
