@@ -1,7 +1,19 @@
+import 'package:clock/clock.dart';
+import 'package:equatable/equatable.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'app_event.dart';
 import 'subscription.dart';
+
+class EventBusHistoryEntry extends Equatable {
+  const EventBusHistoryEntry(this.event, this.timestamp);
+
+  final AppEvent event;
+  final DateTime timestamp;
+
+  @override
+  List<Object?> get props => [event, timestamp];
+}
 
 abstract class IEventBus {
   bool get isBusy;
@@ -16,6 +28,8 @@ abstract class IEventBus {
   Stream<bool> whileInProgress<T extends AppEvent>();
   Subscription respond<T>(Responder<T> responder);
 
+  List<EventBusHistoryEntry> get history;
+
   // Methods
   void fire(AppEvent event);
   void watch(AppEvent event);
@@ -25,9 +39,15 @@ abstract class IEventBus {
   void reset();
 
   void dispose();
+
+  void clearHistory();
 }
 
 class EventBus implements IEventBus {
+  EventBus({this.maxHistoryLength = 100});
+
+  final int maxHistoryLength;
+
   @override
   bool get isBusy => _inProgress.value.isNotEmpty;
   @override
@@ -45,7 +65,15 @@ class EventBus implements IEventBus {
   Stream<List<AppEvent>> get inProgress$ => _inProgress;
 
   @override
+  List<EventBusHistoryEntry> get history => List.unmodifiable(_history);
+  final List<EventBusHistoryEntry> _history = [];
+
+  @override
   void fire(AppEvent event) {
+    if (_history.length >= maxHistoryLength) {
+      _history.removeAt(0);
+    }
+    _history.add(EventBusHistoryEntry(event, clock.now()));
     _lastEvent.add(event);
   }
 
@@ -91,6 +119,7 @@ class EventBus implements IEventBus {
 
   @override
   void reset() {
+    clearHistory();
     _inProgress.add([]);
     _lastEvent.add(EmptyEvent());
   }
@@ -106,5 +135,10 @@ class EventBus implements IEventBus {
     return _inProgress.map((events) {
       return events.whereType<T>().isNotEmpty;
     });
+  }
+
+  @override
+  void clearHistory() {
+    _history.clear();
   }
 }
