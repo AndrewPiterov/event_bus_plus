@@ -1,3 +1,7 @@
+## 0.2.2
+
+* [Fix] `clock` dependency
+
 ## 0.2.1
 
 * [Add] debug logging
