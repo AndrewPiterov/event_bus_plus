@@ -1,3 +1,7 @@
+## 0.3.0+3
+
+* Downgrade clock version
+
 ## 0.3.0+2
 
 * Improve documentation

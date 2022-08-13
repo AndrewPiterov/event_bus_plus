@@ -1,6 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 analyzer:
-  exclude: [example/**, build/**, lib/**.freezed.dart, lib/**.g.dart]
+  exclude: [build/**, lib/**.freezed.dart, lib/**.g.dart]
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

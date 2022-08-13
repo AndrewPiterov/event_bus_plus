@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:event_bus_plus/event_bus_plus.dart';
+import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 
 import 'models/models.dart';
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final IEventBus _eventBus = EventBus();
+  final IEventBus _eventBus = eventBus;
 
   FollowAppEvent? _followingEvent;
   NewComment? _commentingEvent;
