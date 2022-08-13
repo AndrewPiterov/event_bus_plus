@@ -22,10 +22,15 @@ abstract class IEventBus {
 
   List<EventBusHistoryEntry> get history;
 
-  // Methods
+  /// Fire a event
   void fire(AppEvent event);
+
+  /// Fire a event and wait for it to be completed
   void watch(AppEvent event);
+
+  /// Complete a event
   void complete(AppEvent event, {AppEvent? nextEvent});
+
   bool isInProgress<T>();
 
   void reset();
@@ -82,8 +87,15 @@ class EventBus implements IEventBus {
 
   @override
   void complete(AppEvent event, {AppEvent? nextEvent}) {
-    final newArr = _isInProgressEvents.toList()..removeWhere((e) => e == event);
-    _inProgress.add(newArr);
+    // complete the event
+    if (_isInProgressEvents.any((e) => e == event)) {
+      final newArr = _isInProgressEvents.toList()
+        ..removeWhere((e) => e == event);
+      _inProgress.add(newArr);
+      fire(EventCompletionEvent(event));
+    }
+
+    // fire next event if any
     if (nextEvent != null) {
       fire(nextEvent);
     }

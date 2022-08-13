@@ -1,5 +1,11 @@
 ## 0.2.2
 
+* [Add] `EventCompletionEvent`
+* Improve documentation
+
+
+## 0.2.2
+
 * [Fix] `clock` dependency
 
 ## 0.2.1
