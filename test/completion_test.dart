@@ -5,47 +5,49 @@ import 'package:test/test.dart';
 import 'models.dart';
 
 void main() {
-  late IEventBus _bus;
+  late IEventBus bus;
 
   before(() {
-    _bus = EventBus();
+    bus = EventBus();
   });
 
   test('emit Follower Events', () {
     expect(
-        _bus.on(),
+        bus.on(),
         emitsInOrder([
-          FollowAppEvent('username'),
-          FollowAppEvent('username3'),
-          FollowAppEvent('username2'),
+          const FollowAppEvent('username'),
+          const FollowAppEvent('username3'),
+          const FollowAppEvent('username2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username'));
-    _bus.fire(FollowAppEvent('username3'));
-    _bus.fire(FollowAppEvent('username2'));
+    bus.fire(const FollowAppEvent('username'));
+    bus.fire(const FollowAppEvent('username3'));
+    bus.fire(const FollowAppEvent('username2'));
   });
 
   test('start watch but not complete', () {
     expect(
-        _bus.on(),
+        bus.on(),
         emitsInOrder([
-          FollowAppEvent('username'),
+          const FollowAppEvent('username'),
         ]));
 
-    _bus.watch(FollowAppEvent('username'));
+    bus.watch(const FollowAppEvent('username'));
   });
 
   test('start watch and complete', () {
-    final watchable = FollowAppEvent('username3');
+    const watchable = FollowAppEvent('username3');
     expect(
-        _bus.on(),
+        bus.on(),
         emitsInOrder([
           watchable,
-          FollowSuccessfullyEvent(watchable),
+          const EventCompletionEvent(watchable),
+          const FollowSuccessfullyEvent(watchable),
         ]));
 
-    _bus.watch(watchable);
-    _bus.complete(watchable, nextEvent: FollowSuccessfullyEvent(watchable));
+    bus.watch(watchable);
+    bus.complete(watchable,
+        nextEvent: const FollowSuccessfullyEvent(watchable));
   });
 
   // test('emit Follower Events', () {

@@ -4,50 +4,50 @@ import 'package:test/test.dart';
 import 'models.dart';
 
 void main() {
-  late IEventBus _bus;
+  late IEventBus bus;
 
   before(() {
-    _bus = EventBus();
+    bus = EventBus();
   });
 
   test('description', () {
-    _bus.inProgress$.map((List<AppEvent> events) =>
+    bus.inProgress$.map((List<AppEvent> events) =>
         events.whereType<FollowAppEvent>().isNotEmpty);
   }, skip: 'should skip');
 
   test('emit Follower Event', () {
     const id = 'id';
-    expect(_bus.on(), emitsInAnyOrder([FollowAppEvent('username')]));
-    _bus.fire(FollowAppEvent('username'));
+    expect(bus.on(), emitsInAnyOrder([const FollowAppEvent('username')]));
+    bus.fire(const FollowAppEvent('username'));
   });
 
   test('emit Follower Events', () {
     expect(
-        _bus.on(),
+        bus.on(),
         emitsInOrder([
-          FollowAppEvent('username'),
-          FollowAppEvent('username3'),
-          FollowAppEvent('username2'),
+          const FollowAppEvent('username'),
+          const FollowAppEvent('username3'),
+          const FollowAppEvent('username2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username'));
-    _bus.fire(FollowAppEvent('username3'));
-    _bus.fire(FollowAppEvent('username2'));
+    bus.fire(const FollowAppEvent('username'));
+    bus.fire(const FollowAppEvent('username3'));
+    bus.fire(const FollowAppEvent('username2'));
   });
 
   test('emit New Comment Event', () {
     expect(
-        _bus.on<NewCommentEvent>(),
+        bus.on<NewCommentEvent>(),
         emitsInOrder([
-          NewCommentEvent('comment #1'),
-          NewCommentEvent('comment #2'),
+          const NewCommentEvent('comment #1'),
+          const NewCommentEvent('comment #2'),
         ]));
 
-    _bus.fire(FollowAppEvent('username3'));
-    _bus.fire(FollowAppEvent('username3'));
-    _bus.fire(NewCommentEvent('comment #1'));
-    _bus.fire(FollowAppEvent('username3'));
-    _bus.fire(NewCommentEvent('comment #2'));
-    _bus.fire(FollowAppEvent('username3'));
+    bus.fire(const FollowAppEvent('username3'));
+    bus.fire(const FollowAppEvent('username3'));
+    bus.fire(const NewCommentEvent('comment #1'));
+    bus.fire(const FollowAppEvent('username3'));
+    bus.fire(const NewCommentEvent('comment #2'));
+    bus.fire(const FollowAppEvent('username3'));
   });
 }

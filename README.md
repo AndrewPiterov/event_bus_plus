@@ -1,4 +1,20 @@
-# events_bus_plus
+# EventBus: Events for Dart/Flutter
+
+[![pub package](https://img.shields.io/pub/v/event_bus_plus.svg?label=event_bus_plus&color=blue)](https://pub.dev/packages/event_bus_plus)
+[![codecov](https://codecov.io/gh/AndrewPiterov/event_bus_plus/branch/main/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/event_bus_plus)
+[![Dart](https://github.com/AndrewPiterov/event_bus_plus/actions/workflows/dart.yml/badge.svg)](https://github.com/AndrewPiterov/event_bus_plus/actions/workflows/dart.yml)
+
+
+**EventBus** is an open-source library for Dart and Flutter using the **publisher/subscriber** pattern for loose coupling. **EventBus** enables central communication to decoupled classes with just a few lines of code – simplifying the code, removing dependencies, and speeding up app development.
+
+<img src="https://raw.githubusercontent.com/andrewpiterov/event_bus_plus/main/doc/pub_sub.webp" alt="event bus publish subscribe" style="width: 100%; height: auto; "/>
+
+## Your benefits using EventBus: It…
+- simplifies the communication between components;
+- decouples event senders and receivers;
+- performs well with UI artifacts (e.g. Widgets, Controllers);
+- avoids complex and error-prone dependencies and life cycle issues.
+
 
 <img src="https://raw.githubusercontent.com/andrewpiterov/event_bus_plus/main/doc/video_presentation.gif" alt="event bus plus" style="width: 100%; height: auto; "/>
 
