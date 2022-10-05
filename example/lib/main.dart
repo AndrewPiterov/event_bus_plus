@@ -8,7 +8,7 @@ IEventBus eventBus = EventBus();
 
 void main() {
   eventBus.on().listen((event) {
-    print('$DateTime.now()} Event: ${event}');
+    print('${DateTime.now()} Event: $event');
   });
 
   runApp(const MyApp());
