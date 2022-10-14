@@ -1,3 +1,7 @@
+## 0.5.0
+
+* [Add] timestamp for each `event`.
+
 ## 0.4.0
 
 * [Add] mapper

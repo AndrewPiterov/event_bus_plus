@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:clock/clock.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'app_event.dart';
@@ -80,11 +79,10 @@ class EventBus implements IEventBus {
     if (_history.length >= maxHistoryLength) {
       _history.removeAt(0);
     }
-    final now = clock.now();
-    _history.add(EventBusHistoryEntry(event, now));
+    _history.add(EventBusHistoryEntry(event, event.timestamp));
     _lastEvent.add(event);
     _map(event);
-    log(' ⚡️ [$now] $event', name: _logName);
+    log(' ⚡️ [${event.timestamp}] $event', name: _logName);
   }
 
   @override
