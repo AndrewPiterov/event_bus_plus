@@ -41,9 +41,15 @@ abstract class IEventBus {
 }
 
 class EventBus implements IEventBus {
-  EventBus({this.maxHistoryLength = 100});
+  EventBus({
+    this.maxHistoryLength = 100,
+    this.map = const {},
+  });
+
+  static const _logName = 'EventBus';
 
   final int maxHistoryLength;
+  final Map<Type, List<AppEvent Function(AppEvent event)>> map;
 
   @override
   bool get isBusy => _inProgress.value.isNotEmpty;
@@ -73,7 +79,8 @@ class EventBus implements IEventBus {
     final now = clock.now();
     _history.add(EventBusHistoryEntry(event, now));
     _lastEvent.add(event);
-    log(' ⚡️ (app event) [$now] $event');
+    _map(event);
+    log(' ⚡️ [$now] $event', name: _logName);
   }
 
   @override
@@ -124,6 +131,41 @@ class EventBus implements IEventBus {
       Subscription(_lastEvent).respond<T>(responder);
 
   @override
+  Stream<bool> whileInProgress<T extends AppEvent>() {
+    return _inProgress.map((events) {
+      return events.whereType<T>().isNotEmpty;
+    });
+  }
+
+  void _map(AppEvent? event) {
+    if (event == null) {
+      return;
+    }
+
+    final functions = map[event.runtimeType] ?? [];
+    if (functions.isEmpty) {
+      return;
+    }
+
+    for (final func in functions) {
+      final newEvent = func(event);
+      if (newEvent.runtimeType == event.runtimeType) {
+        log(
+          ' 🟠 SKIP EVENT: ${newEvent.runtimeType} => ${event.runtimeType}',
+          name: _logName,
+        );
+        continue;
+      }
+      fire(newEvent);
+    }
+  }
+
+  @override
+  void clearHistory() {
+    _history.clear();
+  }
+
+  @override
   void reset() {
     clearHistory();
     _inProgress.add([]);
@@ -134,17 +176,5 @@ class EventBus implements IEventBus {
   void dispose() {
     _inProgress.close();
     _lastEvent.close();
-  }
-
-  @override
-  Stream<bool> whileInProgress<T extends AppEvent>() {
-    return _inProgress.map((events) {
-      return events.whereType<T>().isNotEmpty;
-    });
-  }
-
-  @override
-  void clearHistory() {
-    _history.clear();
   }
 }

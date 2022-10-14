@@ -18,7 +18,7 @@
 
 <img src="https://raw.githubusercontent.com/andrewpiterov/event_bus_plus/main/doc/video_presentation.gif" alt="event bus plus" style="width: 100%; height: auto; "/>
 
-### Define app's events
+### Define the app's events
 
 ```dart
 // Initialize the Service Bus
@@ -74,11 +74,23 @@ _eventBus.complete(event, nextEvent: SomeAnotherEvent);
 final events = eventBus.history;
 ```
 
+## Mapping
+
+```dart
+final eventBus = bus = EventBus(
+        map: {
+          SomeEvent: [
+            (e) => SomeAnotherEvent(),
+          ],
+        },
+      );
+```
+
 ## Contributing
 
 We accept the following contributions:
 
-* Improving documentation
+* Improving the documentation
 * [Reporting issues](https://github.com/AndrewPiterov/event_bus_plus/issues/new)
 * Fixing bugs
 
