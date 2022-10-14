@@ -5,11 +5,6 @@ typedef Responder<T> = void Function(T event);
 
 /// The class manages the subscription to event bus
 class Subscription {
-  final Stream _stream;
-
-  /// Subscriptions that registered to event bus
-  final List<StreamSubscription> subscriptions = [];
-
   /// Create the subscription
   ///
   /// Should barely used directly, to subscribe to event bus, use `EventBus.respond`.
@@ -17,6 +12,11 @@ class Subscription {
 
   /// Returns an instance that indicates there is no subscription
   factory Subscription.empty() => const _EmptySubscription();
+
+  final Stream _stream;
+
+  /// Subscriptions that registered to event bus
+  final List<StreamSubscription> subscriptions = [];
 
   Stream<T> _cast<T>() {
     if (T == dynamic) {
@@ -47,8 +47,10 @@ class Subscription {
   ///
   /// No harm to call more than once.
   void dispose() {
-    if (subscriptions.isEmpty) return;
-    for (var s in subscriptions) {
+    if (subscriptions.isEmpty) {
+      return;
+    }
+    for (final s in subscriptions) {
       s.cancel();
     }
     subscriptions.clear();
@@ -56,23 +58,22 @@ class Subscription {
 }
 
 class _EmptySubscription implements Subscription {
+  const _EmptySubscription();
   static final List<StreamSubscription> emptyList =
       List.unmodifiable(<StreamSubscription>[]);
-
-  const _EmptySubscription();
 
   @override
   void dispose() {}
 
   @override
-  Subscription respond<T>(responder) => throw Exception("Not supported");
+  Subscription respond<T>(responder) => throw Exception('Not supported');
 
   @override
   List<StreamSubscription> get subscriptions => emptyList;
 
   @override
-  Stream<T> _cast<T>() => throw Exception("Not supported");
+  Stream<T> _cast<T>() => throw Exception('Not supported');
 
   @override
-  Stream get _stream => throw Exception("Not supported");
+  Stream get _stream => throw Exception('Not supported');
 }

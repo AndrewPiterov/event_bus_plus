@@ -7,6 +7,7 @@ import 'app_event.dart';
 import 'history_entry.dart';
 import 'subscription.dart';
 
+/// The event bus interface
 abstract class IEventBus {
   bool get isBusy;
   Stream<bool> get isBusy$;
@@ -40,7 +41,9 @@ abstract class IEventBus {
   void clearHistory();
 }
 
+/// The event bus implementation
 class EventBus implements IEventBus {
+  /// Create the event bus
   EventBus({
     this.maxHistoryLength = 100,
     this.map = const {},
@@ -48,6 +51,7 @@ class EventBus implements IEventBus {
 
   static const _logName = 'EventBus';
 
+  /// The maximum length of history
   final int maxHistoryLength;
   final Map<Type, List<AppEvent Function(AppEvent event)>> map;
 

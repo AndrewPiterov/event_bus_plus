@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -9,16 +11,16 @@ import 'package:test/scaffolding.dart';
 import 'models.dart';
 
 void main() {
-  late IEventBus _bus;
+  late IEventBus bus;
 
   before(() {
-    _bus = EventBus();
+    bus = EventBus();
   });
 
   test('emit Some Event', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewCommentEvent>((event) {
+    final sub = bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -28,14 +30,14 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 2]));
 
-    _bus.fire(FollowAppEvent('username'));
-    _bus.fire(NewCommentEvent('comment #1'));
+    bus.fire(FollowAppEvent('username'));
+    bus.fire(NewCommentEvent('comment #1'));
   });
 
   test('emit Some Events', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewCommentEvent>((event) {
+    final sub = bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -45,15 +47,15 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 2, 1]));
 
-    _bus.fire(FollowAppEvent('username'));
-    _bus.fire(NewCommentEvent('comment #1'));
-    _bus.fire(FollowAppEvent('username2'));
+    bus.fire(FollowAppEvent('username'));
+    bus.fire(NewCommentEvent('comment #1'));
+    bus.fire(FollowAppEvent('username2'));
   });
 
   test('emit all Event', () {
     final ctrl = StreamController();
 
-    final sub = _bus.respond<NewCommentEvent>((event) {
+    final sub = bus.respond<NewCommentEvent>((event) {
       log('new comment');
       ctrl.add(2);
     }).respond<FollowAppEvent>((event) {
@@ -66,7 +68,7 @@ void main() {
 
     expect(ctrl.stream, emitsInOrder([1, 3, 2, 3]));
 
-    _bus.fire(FollowAppEvent('username'));
-    _bus.fire(NewCommentEvent('comment #1'));
+    bus.fire(FollowAppEvent('username'));
+    bus.fire(NewCommentEvent('comment #1'));
   });
 }

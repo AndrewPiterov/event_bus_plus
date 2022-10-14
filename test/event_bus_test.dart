@@ -1,7 +1,7 @@
 import 'package:event_bus_plus/event_bus_plus.dart';
 import 'package:given_when_then_unit_test/given_when_then_unit_test.dart';
-import 'package:test/scaffolding.dart';
 import 'package:shouldly/shouldly.dart';
+import 'package:test/scaffolding.dart';
 
 import 'models.dart';
 

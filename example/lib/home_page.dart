@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     // _eventBus.on<FollowAppEvent>().listen((e) {
-    //   // TODO: something
+    // TODO: something
     // });
   }
 
