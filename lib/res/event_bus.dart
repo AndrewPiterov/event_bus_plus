@@ -59,11 +59,11 @@ class EventBus implements IEventBus {
   @override
   Stream<bool> get isBusy$ => _inProgress.map((event) => event.isNotEmpty);
 
-  final _lastEvent = BehaviorSubject<AppEvent>();
+  final _lastEventSubject = BehaviorSubject<AppEvent>();
   @override
-  AppEvent? get last => _lastEvent.valueOrNull;
+  AppEvent? get last => _lastEventSubject.valueOrNull;
   @override
-  Stream<AppEvent?> get last$ => _lastEvent.distinct();
+  Stream<AppEvent?> get last$ => _lastEventSubject.distinct();
 
   final _inProgress = BehaviorSubject<List<AppEvent>>.seeded([]);
   List<AppEvent> get _isInProgressEvents => _inProgress.value;
@@ -80,8 +80,12 @@ class EventBus implements IEventBus {
       _history.removeAt(0);
     }
     _history.add(EventBusHistoryEntry(event, event.timestamp));
-    _lastEvent.add(event);
+    // 1. Fire the event
+    _lastEventSubject.add(event);
+    // 2. Map if needed
     _map(event);
+    // 3. Reset stream
+    _lastEventSubject.add(EmptyEvent());
     log(' ⚡️ [${event.timestamp}] $event', name: _logName);
   }
 
@@ -118,9 +122,9 @@ class EventBus implements IEventBus {
   @override
   Stream<T> on<T extends AppEvent>() {
     if (T == dynamic) {
-      return _lastEvent.stream as Stream<T>;
+      return _lastEventSubject.stream as Stream<T>;
     } else {
-      return _lastEvent.stream.where((event) => event is T).cast<T>();
+      return _lastEventSubject.stream.where((event) => event is T).cast<T>();
     }
   }
 
@@ -130,7 +134,7 @@ class EventBus implements IEventBus {
   /// Returns [Subscription], which can be disposed to cancel all the subscription registered to itself.
   @override
   Subscription respond<T>(Responder<T> responder) =>
-      Subscription(_lastEvent).respond<T>(responder);
+      Subscription(_lastEventSubject).respond<T>(responder);
 
   @override
   Stream<bool> whileInProgress<T extends AppEvent>() {
@@ -171,12 +175,12 @@ class EventBus implements IEventBus {
   void reset() {
     clearHistory();
     _inProgress.add([]);
-    _lastEvent.add(EmptyEvent());
+    _lastEventSubject.add(EmptyEvent());
   }
 
   @override
   void dispose() {
     _inProgress.close();
-    _lastEvent.close();
+    _lastEventSubject.close();
   }
 }

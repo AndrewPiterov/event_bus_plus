@@ -66,7 +66,7 @@ void main() {
       ctrl.add(3);
     });
 
-    expect(ctrl.stream, emitsInOrder([1, 3, 2, 3]));
+    expect(ctrl.stream, emitsInOrder([1, 3, 3, 2, 3, 3]));
 
     bus.fire(FollowAppEvent('username'));
     bus.fire(NewCommentEvent('comment #1'));
