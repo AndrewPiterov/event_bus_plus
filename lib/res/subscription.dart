@@ -38,7 +38,6 @@ class Subscription {
   /// ```
   Subscription respond<T>(Responder<T> responder) {
     subscriptions.add(_cast<T>().listen(responder));
-
     return this;
   }
 

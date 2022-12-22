@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:logger/logger.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'app_event.dart';
@@ -48,7 +47,7 @@ class EventBus implements IEventBus {
     this.map = const {},
   });
 
-  static const _logName = 'EventBus';
+  final _logger = Logger();
 
   /// The maximum length of history
   final int maxHistoryLength;
@@ -86,7 +85,7 @@ class EventBus implements IEventBus {
     _map(event);
     // 3. Reset stream
     _lastEventSubject.add(EmptyEvent());
-    log(' ⚡️ [${event.timestamp}] $event', name: _logName);
+    _logger.d(' ⚡️ [${event.timestamp}] $event');
   }
 
   @override
@@ -156,9 +155,8 @@ class EventBus implements IEventBus {
     for (final func in functions) {
       final newEvent = func(event);
       if (newEvent.runtimeType == event.runtimeType) {
-        log(
+        _logger.d(
           ' 🟠 SKIP EVENT: ${newEvent.runtimeType} => ${event.runtimeType}',
-          name: _logName,
         );
         continue;
       }
