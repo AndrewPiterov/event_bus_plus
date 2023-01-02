@@ -6,9 +6,7 @@ class FollowAppEvent extends AppEvent {
   final String username;
 
   @override
-  List<Object?> get props => [
-        username,
-      ];
+  List<Object?> get props => [username];
 }
 
 class NewComment extends AppEvent {
@@ -17,7 +15,5 @@ class NewComment extends AppEvent {
   final String text;
 
   @override
-  List<Object?> get props => [
-        text,
-      ];
+  List<Object?> get props => [text];
 }

@@ -7,18 +7,31 @@ import 'subscription.dart';
 
 /// The event bus interface
 abstract class IEventBus {
+  /// Whether the event bus is busy
   bool get isBusy;
+
+  /// Whether the event bus is busy
   Stream<bool> get isBusy$;
 
+  /// The last event
   AppEvent? get last;
+
+  /// The last event
   Stream<AppEvent?> get last$;
 
+  /// The list of events that are in progress
   Stream<List<AppEvent>> get inProgress$;
 
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Stream<T> on<T extends AppEvent>();
+
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Stream<bool> whileInProgress<T extends AppEvent>();
+
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Subscription respond<T>(Responder<T> responder);
 
+  /// The history of events
   List<EventBusHistoryEntry> get history;
 
   /// Fire a event
@@ -30,12 +43,16 @@ abstract class IEventBus {
   /// Complete a event
   void complete(AppEvent event, {AppEvent? nextEvent});
 
+  ///
   bool isInProgress<T>();
 
+  /// Reset the event bus
   void reset();
 
+  /// Dispose the event bus
   void dispose();
 
+  /// Clear the history
   void clearHistory();
 }
 
@@ -51,6 +68,8 @@ class EventBus implements IEventBus {
 
   /// The maximum length of history
   final int maxHistoryLength;
+
+  /// The map of events
   final Map<Type, List<AppEvent Function(AppEvent event)>> map;
 
   @override
