@@ -62,12 +62,17 @@ class EventBus implements IEventBus {
   EventBus({
     this.maxHistoryLength = 100,
     this.map = const {},
+    this.allowLogging = false,
   });
 
   final _logger = Logger();
 
   /// The maximum length of history
   final int maxHistoryLength;
+
+  /// allow to log all events this when you call [fire]
+  /// the event will be in console log
+  final bool allowLogging;
 
   /// The map of events
   final Map<Type, List<AppEvent Function(AppEvent event)>> map;
@@ -104,7 +109,9 @@ class EventBus implements IEventBus {
     _map(event);
     // 3. Reset stream
     _lastEventSubject.add(EmptyEvent());
-    _logger.d(' ⚡️ [${event.timestamp}] $event');
+    if (allowLogging) {
+      _logger.d(' ⚡️ [${event.timestamp}] $event');
+    }
   }
 
   @override

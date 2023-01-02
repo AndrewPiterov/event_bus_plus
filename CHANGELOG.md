@@ -1,3 +1,7 @@
+## 0.6.1
+
+control logging by set `allowLogging`
+
 ## 0.6.0
 
 * **[Change]** fire `EmptyEvent` after each event to keep stream empty.
@@ -21,11 +25,11 @@
 ## 0.3.0+1
 
 * Improve documentation
+
 ## 0.3.0
 
 * [Add] `EventCompletionEvent`
 * Improve documentation
-
 
 ## 0.2.2
 

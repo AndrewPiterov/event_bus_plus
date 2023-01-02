@@ -1,6 +1,6 @@
 name: event_bus_plus
 description: Event Bus for Dart.
-version: 0.6.0
+version: 0.6.1
 homepage: https://github.com/AndrewPiterov/event_bus_plus
 
 environment:
