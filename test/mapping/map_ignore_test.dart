@@ -27,6 +27,7 @@ void main() {
         [
           const SomeEvent(),
           const SomeAnotherEvent(),
+          EmptyEvent(),
         ],
       ),
     );

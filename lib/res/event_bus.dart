@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:logger/logger.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'app_event.dart';
@@ -8,18 +7,31 @@ import 'subscription.dart';
 
 /// The event bus interface
 abstract class IEventBus {
+  /// Whether the event bus is busy
   bool get isBusy;
+
+  /// Whether the event bus is busy
   Stream<bool> get isBusy$;
 
+  /// The last event
   AppEvent? get last;
+
+  /// The last event
   Stream<AppEvent?> get last$;
 
+  /// The list of events that are in progress
   Stream<List<AppEvent>> get inProgress$;
 
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Stream<T> on<T extends AppEvent>();
+
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Stream<bool> whileInProgress<T extends AppEvent>();
+
+  /// Subscribe `EventBus` on a specific type of event, and register responder to it.
   Subscription respond<T>(Responder<T> responder);
 
+  /// The history of events
   List<EventBusHistoryEntry> get history;
 
   /// Fire a event
@@ -31,12 +43,16 @@ abstract class IEventBus {
   /// Complete a event
   void complete(AppEvent event, {AppEvent? nextEvent});
 
+  ///
   bool isInProgress<T>();
 
+  /// Reset the event bus
   void reset();
 
+  /// Dispose the event bus
   void dispose();
 
+  /// Clear the history
   void clearHistory();
 }
 
@@ -48,10 +64,12 @@ class EventBus implements IEventBus {
     this.map = const {},
   });
 
-  static const _logName = 'EventBus';
+  final _logger = Logger();
 
   /// The maximum length of history
   final int maxHistoryLength;
+
+  /// The map of events
   final Map<Type, List<AppEvent Function(AppEvent event)>> map;
 
   @override
@@ -59,11 +77,11 @@ class EventBus implements IEventBus {
   @override
   Stream<bool> get isBusy$ => _inProgress.map((event) => event.isNotEmpty);
 
-  final _lastEvent = BehaviorSubject<AppEvent>();
+  final _lastEventSubject = BehaviorSubject<AppEvent>();
   @override
-  AppEvent? get last => _lastEvent.valueOrNull;
+  AppEvent? get last => _lastEventSubject.valueOrNull;
   @override
-  Stream<AppEvent?> get last$ => _lastEvent.distinct();
+  Stream<AppEvent?> get last$ => _lastEventSubject.distinct();
 
   final _inProgress = BehaviorSubject<List<AppEvent>>.seeded([]);
   List<AppEvent> get _isInProgressEvents => _inProgress.value;
@@ -80,9 +98,13 @@ class EventBus implements IEventBus {
       _history.removeAt(0);
     }
     _history.add(EventBusHistoryEntry(event, event.timestamp));
-    _lastEvent.add(event);
+    // 1. Fire the event
+    _lastEventSubject.add(event);
+    // 2. Map if needed
     _map(event);
-    log(' ⚡️ [${event.timestamp}] $event', name: _logName);
+    // 3. Reset stream
+    _lastEventSubject.add(EmptyEvent());
+    _logger.d(' ⚡️ [${event.timestamp}] $event');
   }
 
   @override
@@ -118,9 +140,9 @@ class EventBus implements IEventBus {
   @override
   Stream<T> on<T extends AppEvent>() {
     if (T == dynamic) {
-      return _lastEvent.stream as Stream<T>;
+      return _lastEventSubject.stream as Stream<T>;
     } else {
-      return _lastEvent.stream.where((event) => event is T).cast<T>();
+      return _lastEventSubject.stream.where((event) => event is T).cast<T>();
     }
   }
 
@@ -130,7 +152,7 @@ class EventBus implements IEventBus {
   /// Returns [Subscription], which can be disposed to cancel all the subscription registered to itself.
   @override
   Subscription respond<T>(Responder<T> responder) =>
-      Subscription(_lastEvent).respond<T>(responder);
+      Subscription(_lastEventSubject).respond<T>(responder);
 
   @override
   Stream<bool> whileInProgress<T extends AppEvent>() {
@@ -152,9 +174,8 @@ class EventBus implements IEventBus {
     for (final func in functions) {
       final newEvent = func(event);
       if (newEvent.runtimeType == event.runtimeType) {
-        log(
+        _logger.d(
           ' 🟠 SKIP EVENT: ${newEvent.runtimeType} => ${event.runtimeType}',
-          name: _logName,
         );
         continue;
       }
@@ -171,12 +192,12 @@ class EventBus implements IEventBus {
   void reset() {
     clearHistory();
     _inProgress.add([]);
-    _lastEvent.add(EmptyEvent());
+    _lastEventSubject.add(EmptyEvent());
   }
 
   @override
   void dispose() {
     _inProgress.close();
-    _lastEvent.close();
+    _lastEventSubject.close();
   }
 }

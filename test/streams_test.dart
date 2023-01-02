@@ -26,8 +26,11 @@ void main() {
         bus.on(),
         emitsInOrder([
           const FollowAppEvent('username'),
+          EmptyEvent(),
           const FollowAppEvent('username3'),
+          EmptyEvent(),
           const FollowAppEvent('username2'),
+          EmptyEvent(),
         ]));
 
     bus.fire(const FollowAppEvent('username'));

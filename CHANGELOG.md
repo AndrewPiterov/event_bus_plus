@@ -1,3 +1,7 @@
+## 0.6.0
+
+* **[Change]** fire `EmptyEvent` after each event to keep stream empty.
+
 ## 0.5.0
 
 * [Add] timestamp for each `event`.
