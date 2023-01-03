@@ -1,6 +1,7 @@
 ## 0.6.0
 
 * **[Change]** fire `EmptyEvent` after each event to keep stream empty.
+* [Add] [Logger](https://pub.dev/packages/logger)
 
 ## 0.5.0
 
