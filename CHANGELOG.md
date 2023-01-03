@@ -1,6 +1,6 @@
 ## 0.6.1
 
-control logging by set `allowLogging`
+* [Add] `allowLogging` to control logging (thanks [@hatemragab](https://github.com/hatemragab))
 
 ## 0.6.0
 

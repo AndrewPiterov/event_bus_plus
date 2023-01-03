@@ -181,9 +181,11 @@ class EventBus implements IEventBus {
     for (final func in functions) {
       final newEvent = func(event);
       if (newEvent.runtimeType == event.runtimeType) {
-        _logger.d(
-          ' 🟠 SKIP EVENT: ${newEvent.runtimeType} => ${event.runtimeType}',
-        );
+        if (allowLogging) {
+          _logger.d(
+            ' 🟠 SKIP EVENT: ${newEvent.runtimeType} => ${event.runtimeType}',
+          );
+        }
         continue;
       }
       fire(newEvent);
