@@ -1,3 +1,7 @@
+## 0.6.2
+
+set sync value to `EventBus(sync:)`
+
 ## 0.6.1
 
 control logging by set `allowLogging`

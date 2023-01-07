@@ -63,12 +63,20 @@ class EventBus implements IEventBus {
     this.maxHistoryLength = 100,
     this.map = const {},
     this.allowLogging = false,
-  });
+    this.sync = false,
+  }) {
+    _lastEventSubject = BehaviorSubject<AppEvent>(
+      sync: sync,
+    );
+  }
 
   final _logger = Logger();
 
   /// The maximum length of history
   final int maxHistoryLength;
+
+  /// set sync value to controller default is [false]
+  final bool sync;
 
   /// allow to log all events this when you call [fire]
   /// the event will be in console log
@@ -79,17 +87,22 @@ class EventBus implements IEventBus {
 
   @override
   bool get isBusy => _inProgress.value.isNotEmpty;
+
   @override
   Stream<bool> get isBusy$ => _inProgress.map((event) => event.isNotEmpty);
 
-  final _lastEventSubject = BehaviorSubject<AppEvent>();
+  late final BehaviorSubject<AppEvent> _lastEventSubject;
+
   @override
   AppEvent? get last => _lastEventSubject.valueOrNull;
+
   @override
   Stream<AppEvent?> get last$ => _lastEventSubject.distinct();
 
   final _inProgress = BehaviorSubject<List<AppEvent>>.seeded([]);
+
   List<AppEvent> get _isInProgressEvents => _inProgress.value;
+
   @override
   Stream<List<AppEvent>> get inProgress$ => _inProgress;
 
