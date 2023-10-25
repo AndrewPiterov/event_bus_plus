@@ -1,3 +1,7 @@
+## 0.6.2
+
+* update `logger` dependency
+
 ## 0.6.1
 
 * [Add] `allowLogging` to control logging (thanks [@hatemragab](https://github.com/hatemragab))

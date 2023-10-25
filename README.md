@@ -4,7 +4,6 @@
 [![codecov](https://codecov.io/gh/AndrewPiterov/event_bus_plus/branch/main/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/event_bus_plus)
 [![Dart](https://github.com/AndrewPiterov/event_bus_plus/actions/workflows/dart.yml/badge.svg)](https://github.com/AndrewPiterov/event_bus_plus/actions/workflows/dart.yml)
 
-
 **EventBus** is an open-source library for Dart and Flutter using the **publisher/subscriber** pattern for loose coupling. **EventBus** enables central communication to decoupled classes with just a few lines of code – simplifying the code, removing dependencies, and speeding up app development.
 
 <img src="https://raw.githubusercontent.com/andrewpiterov/event_bus_plus/main/doc/pub_sub.webp" alt="event bus publish subscribe" style="width: 100%; height: auto; "/>
