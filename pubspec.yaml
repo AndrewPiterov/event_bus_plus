@@ -7,14 +7,14 @@ environment:
   sdk: '>=2.17.1 <4.0.0'
 
 dependencies: 
-  clock: ^1.1.0
-  equatable: ^2.0.5
-  logger: ^2.0.2+1
-  rxdart: ^0.27.5
+  clock: ^1.1.2
+  equatable: ^2.0.7
+  logger: ^2.5.0
+  rxdart: ^0.28.0
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   given_when_then_unit_test: ^0.2.1
   shouldly: ^0.5.0+1
-  test: ^1.22.0
+  test: ^1.25.9
 
