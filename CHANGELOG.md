@@ -1,3 +1,7 @@
+## 0.7.0
+
+* update `rxdart` dependency to `^0.28.0`
+
 ## 0.6.2
 
 * update `logger` dependency
